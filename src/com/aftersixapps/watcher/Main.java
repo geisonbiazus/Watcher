@@ -17,7 +17,12 @@ public class Main extends Activity {
 		iniciaAplicacao();
 		
 		controller = new ARController(this);		
-		controller.init();
+		controller.onCreate();
+	}
+	
+	protected void onResume() {
+		super.onResume();
+		controller.onResume();
 	}
 
 	private void iniciaAplicacao() {

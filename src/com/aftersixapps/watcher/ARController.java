@@ -30,18 +30,23 @@ public class ARController {
 		carregaDadosDoTracker();
 		addGLView();
 	}
-	
+
 	public void onResume() {
 		resumeGLView();
 		iniciaCamera();
 		setProjectionMatrix();
 		QCAR.onResume();
 	}
-	
+
 	public void onPause() {
-		
-		
-		
+		pouseGLView();
+		pararCamera();
+		QCAR.onPause();
+	}
+
+	public void onDestroy() {
+		finalizaTracker();
+		QCAR.deinit();
 	}
 
 	private void iniciaQCAR() {
@@ -65,10 +70,15 @@ public class ARController {
 		activity.addContentView(glView, new LayoutParams(
 				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
-	
+
 	private void resumeGLView() {
 		glView.setVisibility(View.VISIBLE);
 		glView.onResume();
+	}
+
+	private void pouseGLView() {
+		glView.setVisibility(View.INVISIBLE);
+		glView.onPause();
 	}
 
 	private native void iniciaTracker();
@@ -76,9 +86,13 @@ public class ARController {
 	private native void iniciaAplicacaoNative(int largura, int altura);
 
 	private native void carregaDadosDoTracker();
-	
+
 	private native void iniciaCamera();
-	
+
 	private native void setProjectionMatrix();
+
+	private native void pararCamera();
+
+	private native void finalizaTracker();
 
 }

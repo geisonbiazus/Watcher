@@ -24,6 +24,18 @@ public class Main extends Activity {
 		super.onResume();
 		controller.onResume();
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		controller.onDestroy();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		controller.onPause();
+	}
 
 	private void iniciaAplicacao() {
 		// deixa a tela com a orientação paisagem

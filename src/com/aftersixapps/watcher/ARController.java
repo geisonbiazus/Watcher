@@ -3,6 +3,7 @@ package com.aftersixapps.watcher;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
@@ -61,11 +62,11 @@ public class ARController {
 		iniciaAplicacaoNative(metrics.widthPixels, metrics.heightPixels);
 
 		glView = new GLSurfaceView(activity);
-		renderer = new ARRenderer();
+		renderer = new ARRenderer(activity);
 
 		glView.setRenderer(renderer);
 	}
-
+	
 	private void addGLView() {
 		activity.addContentView(glView, new LayoutParams(
 				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
@@ -80,7 +81,7 @@ public class ARController {
 		glView.setVisibility(View.INVISIBLE);
 		glView.onPause();
 	}
-
+	
 	private native void iniciaTracker();
 
 	private native void iniciaAplicacaoNative(int largura, int altura);

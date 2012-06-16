@@ -18,6 +18,11 @@
 #include <QCAR/CameraCalibration.h>
 #include <QCAR/UpdateCallback.h>
 #include <QCAR/DataSet.h>
+#include <QCAR/Rectangle.h>
+#include <QCAR/VirtualButton.h>
+#include <QCAR/ImageTarget.h>
+
+#include "cube.h"
 
 // Log:
 #define LOG_TAG    "AR_CONTROLLER"
@@ -28,6 +33,8 @@ extern "C" {
 // Dimensões da tela:
 unsigned int larguraDaTela = 0;
 unsigned int alturaDaTela = 0;
+
+bool criarBotao = true;
 
 // dataset
 QCAR::DataSet* dataset = 0;
@@ -85,6 +92,36 @@ void configureVideoBackground() {
 	QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
 }
 
+class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
+	virtual void QCAR_onUpdate(QCAR::State& /*state*/) {
+		if (criarBotao) {
+
+			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG("Criando botão virtual");
+			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+			QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+			QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
+					trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+
+			QCAR::Trackable* trackable = dataset->getTrackable(0);
+
+			imageTracker->deactivateDataSet(dataset);
+
+			QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
+			QCAR::Rectangle vbRectangle(-5.0,  5.0, 5.0, -5.0);
+			QCAR::VirtualButton* virtualButton = imageTarget->createVirtualButton("botao", vbRectangle);
+
+			virtualButton->setEnabled(true);
+			virtualButton->setSensitivity(QCAR::VirtualButton::MEDIUM);
+
+			imageTracker->activateDataSet(dataset);
+			criarBotao = false;
+		}
+
+	}
+} qcarUpdate;
+
 JNIEXPORT void JNICALL
 Java_com_aftersixapps_watcher_ARController_iniciaTracker(JNIEnv *, jobject)
 {
@@ -103,6 +140,8 @@ Java_com_aftersixapps_watcher_ARController_iniciaAplicacaoNative(
 
 	larguraDaTela = largura;
 	alturaDaTela = altura;
+
+	QCAR::registerCallback(&qcarUpdate);
 }
 
 JNIEXPORT void JNICALL
@@ -164,7 +203,6 @@ Java_com_aftersixapps_watcher_ARController_pararCamera(JNIEnv *, jobject)
 	QCAR::CameraDevice::getInstance().deinit();
 }
 
-
 JNIEXPORT void JNICALL
 Java_com_aftersixapps_watcher_ARController_finalizaTracker(JNIEnv *, jobject)
 {
@@ -178,7 +216,6 @@ Java_com_aftersixapps_watcher_ARController_finalizaTracker(JNIEnv *, jobject)
 
 	trackerManager.deinitTracker(QCAR::Tracker::IMAGE_TRACKER);
 }
-
 
 //////////////////////////////////////////
 // Métodos dativos da classe ARRenderer //
@@ -209,7 +246,7 @@ Java_com_aftersixapps_watcher_ARRenderer_atualizaRenderizacao(
 JNIEXPORT void JNICALL
 Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj)
 {
-	LOG("Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame");
+//	LOG("Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame");
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -217,51 +254,82 @@ Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj
 
 	QCAR::Renderer::getInstance().drawVideoBackground();
 
-//	glEnableClientState(GL_VERTEX_ARRAY);
-//	glEnableClientState(GL_COLOR_ARRAY);
-//
-//	glEnable(GL_TEXTURE_2D);
-//	glDisable(GL_LIGHTING);
-//
-//	glEnable(GL_DEPTH_TEST);
-//	glEnable(GL_CULL_FACE);
-//
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_LIGHTING);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
 	for(int tIdx = 0; tIdx < state.getNumActiveTrackables(); tIdx++)
 	{
 
 		const QCAR::Trackable* trackable = state.getActiveTrackable(tIdx);
 		QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(trackable->getPose());
 
+		const QCAR::ImageTarget* target = static_cast<const QCAR::ImageTarget*>(trackable);
+
+
 		if (strcmp(trackable->getName(), "avengers") == 0) {
 			LOG("Imagem detectada");
 		}
 
+		for (int i = 0; i < target->getNumVirtualButtons(); ++i)
+		{
+			LOG("Botão detectado");
+//
+			const QCAR::VirtualButton* button = target->getVirtualButton(i);
+//
+//			// If the button is pressed, than use this texture:
+			if (button->isPressed())
+			{
 
-//		glMatrixMode(GL_PROJECTION);
-//		glLoadMatrixf(projectionMatrix.data);
+				LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+				LOG("Botão pressionado");
+				LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+				 // Handle to the activity class:
+				jclass cls = env->GetObjectClass(obj);
+
+				jmethodID abrirVideoMethodID = env->GetMethodID(cls, "abrirVideo", "()V");
+
+				if (abrirVideoMethodID == 0) {
+					LOG("METODO NAO ENCONTRADO");
+				}
+
+				env->CallIntMethod(obj, abrirVideoMethodID);
+			}
 //
-//		glMatrixMode(GL_MODELVIEW);
-//		glLoadMatrixf(modelViewMatrix.data);
-//
-//		float kObjectScale = 3.f;
-//
-//		glTranslatef(0.f, 0.f, kObjectScale);
-//		glScalef(kObjectScale, kObjectScale, kObjectScale);
-//
-//		glFrontFace(GL_CW);
-//
-//
-//		glVertexPointer(3, GL_FLOAT, 0, (const GLvoid*) &cubeVertices[0]);
-//		glColorPointer(4, GL_FLOAT, 0, (const GLvoid*) &cubeColors[0]);
-//
-//		glDrawElements(GL_TRIANGLES, NUM_CUBE_OBJECT_INDEX, GL_UNSIGNED_SHORT,
-//				(const GLvoid*) &cubeIndices[0]);
+		}
+
+
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf(projectionMatrix.data);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(modelViewMatrix.data);
+
+		float kObjectScale = 3.f;
+
+		glTranslatef(0.f, 0.f, kObjectScale);
+		glScalef(kObjectScale, kObjectScale, kObjectScale);
+
+		glFrontFace(GL_CW);
+
+
+		glVertexPointer(3, GL_FLOAT, 0, (const GLvoid*) &cubeVertices[0]);
+		glColorPointer(4, GL_FLOAT, 0, (const GLvoid*) &cubeColors[0]);
+
+		glDrawElements(GL_TRIANGLES, NUM_CUBE_OBJECT_INDEX, GL_UNSIGNED_SHORT,
+				(const GLvoid*) &cubeIndices[0]);
 	}
-//	glDisable(GL_DEPTH_TEST);
-//
-//	glDisable(GL_TEXTURE_2D);
-//	glDisableClientState(GL_VERTEX_ARRAY);
-//	glDisableClientState(GL_COLOR_ARRAY);
+	glDisable(GL_DEPTH_TEST);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 
 	QCAR::Renderer::getInstance().end();
 }

@@ -41,7 +41,11 @@ obj/local/armeabi/objs-debug/Watcher/ARController.o: jni/ARController.cpp \
  /home/geison/workspace/CubeAr/qcar/include/QCAR/TrackerManager.h \
  /home/geison/workspace/CubeAr/qcar/include/QCAR/ImageTracker.h \
  /home/geison/workspace/CubeAr/qcar/include/QCAR/UpdateCallback.h \
- /home/geison/workspace/CubeAr/qcar/include/QCAR/DataSet.h
+ /home/geison/workspace/CubeAr/qcar/include/QCAR/DataSet.h \
+ /home/geison/workspace/CubeAr/qcar/include/QCAR/Rectangle.h \
+ /home/geison/workspace/CubeAr/qcar/include/QCAR/Area.h \
+ /home/geison/workspace/CubeAr/qcar/include/QCAR/VirtualButton.h \
+ /home/geison/workspace/CubeAr/qcar/include/QCAR/ImageTarget.h jni/cube.h
 
 /home/geison/Programas/android-ndk-r7c/platforms/android-8/arch-arm/usr/include/jni.h:
 
@@ -128,3 +132,13 @@ obj/local/armeabi/objs-debug/Watcher/ARController.o: jni/ARController.cpp \
 /home/geison/workspace/CubeAr/qcar/include/QCAR/UpdateCallback.h:
 
 /home/geison/workspace/CubeAr/qcar/include/QCAR/DataSet.h:
+
+/home/geison/workspace/CubeAr/qcar/include/QCAR/Rectangle.h:
+
+/home/geison/workspace/CubeAr/qcar/include/QCAR/Area.h:
+
+/home/geison/workspace/CubeAr/qcar/include/QCAR/VirtualButton.h:
+
+/home/geison/workspace/CubeAr/qcar/include/QCAR/ImageTarget.h:
+
+jni/cube.h:

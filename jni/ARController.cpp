@@ -93,7 +93,9 @@ void configureVideoBackground() {
 }
 
 class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
+
 	virtual void QCAR_onUpdate(QCAR::State& /*state*/) {
+
 		if (criarBotao) {
 
 			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -274,6 +276,10 @@ Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj
 
 		if (strcmp(trackable->getName(), "avengers") == 0) {
 			LOG("Imagem detectada");
+		}
+
+		if (target->getNumVirtualButtons() == 0) {
+			criarBotao = true;
 		}
 
 		for (int i = 0; i < target->getNumVirtualButtons(); ++i)

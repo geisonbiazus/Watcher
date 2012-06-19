@@ -1,5 +1,5 @@
 obj/local/armeabi-v7a/objs-debug/Watcher/ARController.o: \
- jni/ARController.cpp \
+ jni/ARController.cpp jni/ARController.h \
  /home/geison/Programas/android-ndk-r7c/platforms/android-8/arch-arm/usr/include/jni.h \
  /home/geison/Programas/android-ndk-r7c/platforms/android-8/arch-arm/usr/include/android/log.h \
  /home/geison/Programas/android-ndk-r7c/platforms/android-8/arch-arm/usr/include/stdio.h \
@@ -47,6 +47,8 @@ obj/local/armeabi-v7a/objs-debug/Watcher/ARController.o: \
  /home/geison/workspace/CubeAr/qcar/include/QCAR/Area.h \
  /home/geison/workspace/CubeAr/qcar/include/QCAR/VirtualButton.h \
  /home/geison/workspace/CubeAr/qcar/include/QCAR/ImageTarget.h jni/cube.h
+
+jni/ARController.h:
 
 /home/geison/Programas/android-ndk-r7c/platforms/android-8/arch-arm/usr/include/jni.h:
 

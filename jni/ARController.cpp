@@ -1,46 +1,34 @@
-#include <jni.h>
-#include <android/log.h>
-#include <stdio.h>
-#include <string.h>
+#include "ARController.h"
 
-#include <GLES/gl.h>
-#include <GLES/glext.h>
+class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
+	virtual void QCAR_onUpdate(QCAR::State& /*state*/) {
 
-#include <QCAR/QCAR.h>
-#include <QCAR/CameraDevice.h>
-#include <QCAR/Renderer.h>
-#include <QCAR/VideoBackgroundConfig.h>
-#include <QCAR/Trackable.h>
-#include <QCAR/Tool.h>
-#include <QCAR/Tracker.h>
-#include <QCAR/TrackerManager.h>
-#include <QCAR/ImageTracker.h>
-#include <QCAR/CameraCalibration.h>
-#include <QCAR/UpdateCallback.h>
-#include <QCAR/DataSet.h>
-#include <QCAR/Rectangle.h>
-#include <QCAR/VirtualButton.h>
-#include <QCAR/ImageTarget.h>
+		if (criarBotao) {
 
-#include "cube.h"
+			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG("Criando botão virtual");
+			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
-// Log:
-#define LOG_TAG    "AR_CONTROLLER"
-#define LOG(...)  __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+			QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+			QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
+					trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
 
-extern "C" {
+			QCAR::Trackable* trackable = dataset->getTrackable(0);
 
-// Dimensões da tela:
-unsigned int larguraDaTela = 0;
-unsigned int alturaDaTela = 0;
+			imageTracker->deactivateDataSet(dataset);
 
-bool criarBotao = true;
+			QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
+			QCAR::Rectangle vbRectangle(-5.0,  5.0, 5.0, -5.0);
+			QCAR::VirtualButton* virtualButton = imageTarget->createVirtualButton("botao", vbRectangle);
 
-// dataset
-QCAR::DataSet* dataset = 0;
+			virtualButton->setEnabled(true);
+			virtualButton->setSensitivity(QCAR::VirtualButton::MEDIUM);
 
-// Matriz de projeção usada para renderizar os objetos
-QCAR::Matrix44F projectionMatrix;
+			imageTracker->activateDataSet(dataset);
+			criarBotao = false;
+		}
+	}
+} qcarUpdate;
 
 void configureVideoBackground() {
 	bool isActivityInPortraitMode = false;
@@ -91,38 +79,6 @@ void configureVideoBackground() {
 	// Set the config:
 	QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
 }
-
-class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
-
-	virtual void QCAR_onUpdate(QCAR::State& /*state*/) {
-
-		if (criarBotao) {
-
-			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-			LOG("Criando botão virtual");
-			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-
-			QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-			QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
-					trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
-
-			QCAR::Trackable* trackable = dataset->getTrackable(0);
-
-			imageTracker->deactivateDataSet(dataset);
-
-			QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
-			QCAR::Rectangle vbRectangle(-5.0,  5.0, 5.0, -5.0);
-			QCAR::VirtualButton* virtualButton = imageTarget->createVirtualButton("botao", vbRectangle);
-
-			virtualButton->setEnabled(true);
-			virtualButton->setSensitivity(QCAR::VirtualButton::MEDIUM);
-
-			imageTracker->activateDataSet(dataset);
-			criarBotao = false;
-		}
-
-	}
-} qcarUpdate;
 
 JNIEXPORT void JNICALL
 Java_com_aftersixapps_watcher_ARController_iniciaTracker(JNIEnv *, jobject)
@@ -291,11 +247,6 @@ Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj
 //			// If the button is pressed, than use this texture:
 			if (button->isPressed())
 			{
-
-				LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-				LOG("Botão pressionado");
-				LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-
 				 // Handle to the activity class:
 				jclass cls = env->GetObjectClass(obj);
 
@@ -340,4 +291,3 @@ Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj
 	QCAR::Renderer::getInstance().end();
 }
 
-}

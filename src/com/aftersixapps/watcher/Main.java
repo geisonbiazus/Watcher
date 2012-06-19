@@ -3,6 +3,8 @@ package com.aftersixapps.watcher;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 
 public class Main extends Activity {
@@ -35,6 +37,19 @@ public class Main extends Activity {
 	protected void onPause() {
 		super.onPause();
 		controller.onPause();
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {	
+		super.onTouchEvent(event);
+		
+		if (event.getActionMasked() == MotionEvent.ACTION_UP) {
+			Log.i("MAIN", "X = " + event.getX());
+			Log.i("MAIN", "Y = " + event.getY());
+		}
+		
+		
+		return true;
 	}
 
 	private void iniciaAplicacao() {

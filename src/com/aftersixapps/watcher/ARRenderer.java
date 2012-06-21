@@ -7,6 +7,7 @@ import com.qualcomm.QCAR.QCAR;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
@@ -14,11 +15,13 @@ import android.util.Log;
 public class ARRenderer implements Renderer {
 
 	private Activity activity;
-	
-	public ARRenderer(Activity activity) {
+	private BancoDeDados bancoDeDados;
+
+	public ARRenderer(Activity activity, BancoDeDados bancoDeDados) {
 		this.activity = activity;
+		this.bancoDeDados = bancoDeDados;
 	}
-	
+
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		renderizaFrame();
@@ -35,18 +38,24 @@ public class ARRenderer implements Renderer {
 		iniciaRenderizacao();
 		QCAR.onSurfaceCreated();
 	}
-	
-	public void abrirVideo() {
-		Log.i("JAVA", "Abrindo video........");
-		
-		Uri uri = Uri.parse("http://www.youtube.com/watch?v=Lj-DQOPHdPY");
 
-		Intent it = new Intent(Intent.ACTION_VIEW, uri);
-		activity.startActivity(it);
+	public void abrirVideo(String nome) {
+		Log.i("JAVA", "Abrindo video........");
+
+		Cursor cursor = bancoDeDados.buscaTrackablePorNome(nome);
+
+		if (cursor.moveToNext()) {
+			Uri uri = Uri.parse(cursor.getString(1));
+
+			Intent it = new Intent(Intent.ACTION_VIEW, uri);
+			activity.startActivity(it);
+		}
 	}
-	
+
 	private native void iniciaRenderizacao();
+
 	private native void atualizaRenderizacao(int width, int height);
+
 	private native void renderizaFrame();
 
 }

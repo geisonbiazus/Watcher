@@ -10,6 +10,7 @@ import android.view.WindowManager;
 public class Main extends Activity {
 	
 	private ARController controller;
+	private BancoDeDados bancoDeDados;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -17,8 +18,9 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 
 		iniciaAplicacao();
+		bancoDeDados = new BancoDeDados(this);
 		
-		controller = new ARController(this);		
+		controller = new ARController(this, bancoDeDados);		
 		controller.onCreate();
 	}
 	

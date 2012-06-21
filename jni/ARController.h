@@ -29,19 +29,24 @@
 #define LOG(...)  __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 
 extern "C" {
-// Dimensões da tela:
+
 unsigned int larguraDaTela = 0;
 unsigned int alturaDaTela = 0;
-
 bool criarBotao = true;
-
-// dataset
 QCAR::DataSet* dataset = 0;
-
-// Matriz de projeção usada para renderizar os objetos
-QCAR::Matrix44F projectionMatrix;
+QCAR::Matrix44F projectionMatrix; // Matriz de projeção usada para renderizar os objetos
 
 void configureVideoBackground();
+void iniciaTracker();
+void iniciaAplicacao(jint largura, jint altura);
+void carregaDadosDoTracker();
+void iniciaCamera();
+void setProjectionMatrix();
+void pararCamera();
+void finalizaTracker();
+void iniciaRenderizacao();
+void atualizaRenderizacao(jint largura, jint altura);
+void renderizaFrame(JNIEnv* env, jobject obj);
 
 JNIEXPORT void JNICALL
 Java_com_aftersixapps_watcher_ARController_iniciaTracker(JNIEnv *, jobject);

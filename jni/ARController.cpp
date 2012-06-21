@@ -13,16 +13,20 @@ class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
 			QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
 					trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
 
-			QCAR::Trackable* trackable = dataset->getTrackable(0);
 
 			imageTracker->deactivateDataSet(dataset);
 
-			QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
-			QCAR::Rectangle vbRectangle(-5.0,  5.0, 5.0, -5.0);
-			QCAR::VirtualButton* virtualButton = imageTarget->createVirtualButton("botao", vbRectangle);
+			for(int tIdx = 0; tIdx < dataset->getNumTrackables(); tIdx++) {
 
-			virtualButton->setEnabled(true);
-			virtualButton->setSensitivity(QCAR::VirtualButton::MEDIUM);
+				QCAR::Trackable* trackable = dataset->getTrackable(tIdx);
+
+				QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
+				QCAR::Rectangle vbRectangle(-5.0,  5.0, 5.0, -5.0);
+				QCAR::VirtualButton* virtualButton = imageTarget->createVirtualButton("botao", vbRectangle);
+
+				virtualButton->setEnabled(true);
+				virtualButton->setSensitivity(QCAR::VirtualButton::MEDIUM);
+			}
 
 			imageTracker->activateDataSet(dataset);
 			criarBotao = false;
@@ -80,34 +84,20 @@ void configureVideoBackground() {
 	QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
 }
 
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARController_iniciaTracker(JNIEnv *, jobject)
-{
-	LOG("Java_com_aftersixapps_watcher_ARController_iniciaTracker");
-
+void iniciaTracker() {
 	// Inicializa o image trackrer:
 	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
 	QCAR::Tracker* tracker = trackerManager.initTracker(QCAR::Tracker::IMAGE_TRACKER);
 }
 
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARController_iniciaAplicacaoNative(
-		JNIEnv* env, jobject obj, jint largura, jint altura)
-{
-	LOG("Java_com_aftersixapps_watcher_ARController_iniciaAplicacaoNative");
-
+void iniciaAplicacao(jint largura, jint altura) {
 	larguraDaTela = largura;
 	alturaDaTela = altura;
 
 	QCAR::registerCallback(&qcarUpdate);
 }
 
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARController_carregaDadosDoTracker(
-		JNIEnv* env, jobject obj)
-{
-	LOG("Java_com_aftersixapps_watcher_ARController_carregaDadosDoTracker");
-
+void carregaDadosDoTracker() {
 	// pega o image tracker
 	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
 	QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
@@ -116,15 +106,9 @@ Java_com_aftersixapps_watcher_ARController_carregaDadosDoTracker(
 	dataset = imageTracker->createDataSet();
 	dataset->load("Watcher.xml", QCAR::DataSet::STORAGE_APPRESOURCE);
 	imageTracker->activateDataSet(dataset);
-
 }
 
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARController_iniciaCamera(
-		JNIEnv* env, jobject obj)
-{
-	LOG("Java_com_aftersixapps_watcher_ARController_iniciaCamera");
-
+void iniciaCamera() {
 	QCAR::CameraDevice::getInstance().init();
 
 	configureVideoBackground();
@@ -137,22 +121,14 @@ Java_com_aftersixapps_watcher_ARController_iniciaCamera(
 	imageTracker->start();
 }
 
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARController_setProjectionMatrix(JNIEnv *, jobject)
-{
-	LOG("Java_com_aftersixapps_watcher_ARController_setProjectionMatrix");
-
+void setProjectionMatrix() {
 	const QCAR::CameraCalibration& cameraCalibration =
 	QCAR::CameraDevice::getInstance().getCameraCalibration();
 	projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f,
 			2000.0f);
 }
 
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARController_pararCamera(JNIEnv *, jobject)
-{
-	LOG("Java_com_aftersixapps_watcher_ARController_pararCamera");
-
+void pararCamera() {
 	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
 	QCAR::Tracker* imageTracker = trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER);
 	imageTracker->stop();
@@ -161,50 +137,27 @@ Java_com_aftersixapps_watcher_ARController_pararCamera(JNIEnv *, jobject)
 	QCAR::CameraDevice::getInstance().deinit();
 }
 
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARController_finalizaTracker(JNIEnv *, jobject)
-{
-	LOG("Java_com_aftersixapps_watcher_ARController_finalizaTracker");
-
+void finalizaTracker() {
 	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
 	QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
 			trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
 
 	imageTracker->deactivateDataSet(dataset);
-
 	trackerManager.deinitTracker(QCAR::Tracker::IMAGE_TRACKER);
 }
 
-//////////////////////////////////////////
-// Métodos dativos da classe ARRenderer //
-//////////////////////////////////////////
-
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARRenderer_iniciaRenderizacao(JNIEnv *, jobject)
-{
-	LOG("Java_com_aftersixapps_watcher_ARRenderer_iniciaRenderizacao");
-
+void iniciaRenderizacao() {
 	// Define clear color
-	glClearColor(0.0f, 0.0f, 0.0f, QCAR::requiresAlpha() ? 0.0f : 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, QCAR::requiresAlpha() ? 0.0f : 1.0f);}
 
-}
-
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARRenderer_atualizaRenderizacao(
-		JNIEnv* env, jobject obj, jint largura, jint altura)
-{
-	LOG("JJava_com_aftersixapps_watcher_ARRenderer_atualizaRenderizacao");
-
+void atualizaRenderizacao(jint largura, jint altura) {
 	larguraDaTela = largura;
 	alturaDaTela = altura;
 
 	configureVideoBackground();
 }
 
-JNIEXPORT void JNICALL
-Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj)
-{
-//	LOG("Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame");
+void renderizaFrame(JNIEnv* env, jobject obj) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -241,7 +194,9 @@ Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj
 		for (int i = 0; i < target->getNumVirtualButtons(); ++i)
 		{
 			LOG("Botão detectado");
-//
+//// Inicializa o image trackrer:
+			QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+			QCAR::Tracker* tracker = trackerManager.initTracker(QCAR::Tracker::IMAGE_TRACKER);
 			const QCAR::VirtualButton* button = target->getVirtualButton(i);
 //
 //			// If the button is pressed, than use this texture:
@@ -250,13 +205,15 @@ Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj
 				 // Handle to the activity class:
 				jclass cls = env->GetObjectClass(obj);
 
-				jmethodID abrirVideoMethodID = env->GetMethodID(cls, "abrirVideo", "()V");
+				jstring name = env->NewStringUTF(trackable->getName());
+
+				jmethodID abrirVideoMethodID = env->GetMethodID(cls, "abrirVideo", "(Ljava/lang/String;)V");
 
 				if (abrirVideoMethodID == 0) {
 					LOG("METODO NAO ENCONTRADO");
 				}
 
-				env->CallIntMethod(obj, abrirVideoMethodID);
+				env->CallIntMethod(obj, abrirVideoMethodID, name);
 			}
 //
 		}
@@ -289,5 +246,83 @@ Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj
 	glDisableClientState(GL_COLOR_ARRAY);
 
 	QCAR::Renderer::getInstance().end();
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_iniciaTracker(JNIEnv *, jobject)
+{
+	LOG("Java_com_aftersixapps_watcher_ARController_iniciaTracker");
+	iniciaTracker();
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_iniciaAplicacaoNative(
+		JNIEnv* env, jobject obj, jint largura, jint altura)
+{
+	LOG("Java_com_aftersixapps_watcher_ARController_iniciaAplicacaoNative");
+	iniciaAplicacao(largura, altura);
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_carregaDadosDoTracker(
+		JNIEnv* env, jobject obj)
+{
+	LOG("Java_com_aftersixapps_watcher_ARController_carregaDadosDoTracker");
+	carregaDadosDoTracker();
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_iniciaCamera(
+		JNIEnv* env, jobject obj)
+{
+	LOG("Java_com_aftersixapps_watcher_ARController_iniciaCamera");
+	iniciaCamera();
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_setProjectionMatrix(JNIEnv *, jobject)
+{
+	LOG("Java_com_aftersixapps_watcher_ARController_setProjectionMatrix");
+	setProjectionMatrix();
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_pararCamera(JNIEnv *, jobject)
+{
+	LOG("Java_com_aftersixapps_watcher_ARController_pararCamera");
+	pararCamera();
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_finalizaTracker(JNIEnv *, jobject)
+{
+	LOG("Java_com_aftersixapps_watcher_ARController_finalizaTracker");
+	finalizaTracker();
+}
+
+//////////////////////////////////////////
+// Métodos dativos da classe ARRenderer //
+//////////////////////////////////////////
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARRenderer_iniciaRenderizacao(JNIEnv *, jobject)
+{
+	LOG("Java_com_aftersixapps_watcher_ARRenderer_iniciaRenderizacao");
+	iniciaRenderizacao();
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARRenderer_atualizaRenderizacao(
+		JNIEnv* env, jobject obj, jint largura, jint altura)
+{
+	LOG("JJava_com_aftersixapps_watcher_ARRenderer_atualizaRenderizacao");
+	atualizaRenderizacao(largura, altura);
+}
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame(JNIEnv* env, jobject obj)
+{
+//	LOG("Java_com_aftersixapps_watcher_ARRenderer_renderizaFrame");
+	renderizaFrame(env, obj);
 }
 

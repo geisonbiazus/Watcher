@@ -40,13 +40,15 @@ public class BancoDeDados {
 
 		bd.execSQL("create table if not exists trackables "
 				+ "(id integer primary key, nome text, url text);");
-
+		limparTrackables();
 		adicionaTrackable("avengers",
 				"http://www.youtube.com/watch?v=Lj-DQOPHdPY");
 		adicionaTrackable("avatar",
 				"http://www.youtube.com/watch?v=5PSNL1qE6VY");
 		adicionaTrackable("shawshankredemption",
 				"http://www.youtube.com/watch?v=6hB3S9bIaco");
+		adicionaTrackable("skyrim",
+				"http://www.youtube.com/watch?v=MUNRNbEyh3o&feature=fvst");
 	}
 
 }

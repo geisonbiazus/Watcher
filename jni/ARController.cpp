@@ -194,12 +194,12 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 		for (int i = 0; i < target->getNumVirtualButtons(); ++i)
 		{
 			LOG("Botão detectado");
-//// Inicializa o image trackrer:
+
 			QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
 			QCAR::Tracker* tracker = trackerManager.initTracker(QCAR::Tracker::IMAGE_TRACKER);
 			const QCAR::VirtualButton* button = target->getVirtualButton(i);
-//
-//			// If the button is pressed, than use this texture:
+
+			// If the button is pressed, than use this texture:
 			if (button->isPressed())
 			{
 				 // Handle to the activity class:
@@ -215,7 +215,7 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 
 				env->CallIntMethod(obj, abrirVideoMethodID, name);
 			}
-//
+
 		}
 
 

@@ -1,12 +1,20 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
+gem 'pg'
+#gem 'mongrel'
+gem 'thin'
+gem 'rspec-rails'
+gem 'email_spec'
+gem 'guard-rspec'
+gem 'factory_girl_rails', "1.1.0"
+
+gem 'active_scaffold'
+
+gem "paperclip"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'pg'
-
 
 # Gems used only for assets and not required
 # in production environments by default.

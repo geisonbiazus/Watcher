@@ -9,7 +9,9 @@ gem 'email_spec'
 gem 'guard-rspec'
 gem 'factory_girl_rails', "1.1.0"
 
-gem 'active_scaffold'
+gem 'active_scaffold', :git => 'git://github.com/activescaffold/active_scaffold.git'
+
+gem 'mechanize'
 
 gem "paperclip"
 

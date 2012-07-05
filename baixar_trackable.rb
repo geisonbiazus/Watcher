@@ -15,6 +15,6 @@ a.page.forms.first.submit
 
 a.page.link_with(:class => "uploadTargetInSingletarget").click()
 
-a.page.forms.first.file_uploads.first.value = "/home/geison/workspace/Watcher/media/piratasdocaribe.jpg"
-
+a.page.forms.first.file_uploads.first.file_name = "/home/geison/workspace/Watcher/media/piratasdocaribe.jpg"
+a.page.forms.first.submit
 

@@ -1,0 +1,4 @@
+baixar_datasets:
+  every: 2m
+  class: DatasetDownloader
+  queue: baixar_datasets

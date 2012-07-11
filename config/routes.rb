@@ -1,4 +1,7 @@
 WatcherManager::Application.routes.draw do
+
+  mount Resque::Server, :at => "/resque"
+
   resources :trackables do as_routes end
 
 #  resources :trackables

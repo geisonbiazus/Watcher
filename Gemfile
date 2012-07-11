@@ -15,6 +15,9 @@ gem 'selenium-webdriver'
 
 gem "paperclip"
 
+gem "resque", :require => "resque/server"
+gem 'resque-scheduler', :require => ['resque_scheduler', 'resque_scheduler/server']
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

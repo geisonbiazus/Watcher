@@ -1,5 +1,7 @@
 class Trackable < ActiveRecord::Base
 
+  scope :a_atualizar, :conditions => "not atualizado or atualizado is null"
+
   CAMINHO_IMAGEM = "system/imagems/:filename"
 
   attr_accessible :descricao, :observacao, :imagem, :url_video

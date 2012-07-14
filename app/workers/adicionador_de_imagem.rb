@@ -21,7 +21,7 @@ class AdicionadorDeImagem
 
     d.find_element(:link, "Upload").click
 
-    d.find_element(:id, "edit-image").send_keys "/home/geison/workspace/Watcher/media/#{imagem}"
+    d.find_element(:id, "edit-image").send_keys "#{Rails.root}/public/system/imagems/#{imagem}"
     d.find_element(:id, "edit-submit-1").click
     d.close
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120711221735) do
+ActiveRecord::Schema.define(:version => 20120714012022) do
 
   create_table "trackables", :force => true do |t|
     t.string   "descricao"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20120711221735) do
     t.integer  "imagem_file_size"
     t.datetime "imagem_updated_at"
     t.string   "url_video"
+    t.boolean  "atualizado"
   end
 
 end

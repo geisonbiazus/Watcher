@@ -187,6 +187,7 @@ GEM
       multi_json (~> 1.3)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    xml-simple (1.1.1)
 
 PLATFORMS
   ruby
@@ -208,3 +209,4 @@ DEPENDENCIES
   selenium-webdriver
   thin
   uglifier (>= 1.0.3)
+  xml-simple

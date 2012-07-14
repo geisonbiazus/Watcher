@@ -14,6 +14,7 @@ gem 'active_scaffold', :git => 'git://github.com/activescaffold/active_scaffold.
 gem 'selenium-webdriver'
 
 gem "paperclip"
+gem "xml-simple"
 
 gem "resque", :require => "resque/server"
 gem 'resque-scheduler', :require => ['resque_scheduler', 'resque_scheduler/server']

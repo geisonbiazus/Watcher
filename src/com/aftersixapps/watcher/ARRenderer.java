@@ -46,6 +46,7 @@ public class ARRenderer implements Renderer {
 
 		if (cursor.moveToNext()) {
 			Uri uri = Uri.parse(cursor.getString(1));
+			cursor.close();
 
 			Intent it = new Intent(Intent.ACTION_VIEW, uri);
 			activity.startActivity(it);

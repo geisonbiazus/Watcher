@@ -104,7 +104,9 @@ void carregaDadosDoTracker() {
 			trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
 
 	dataset = imageTracker->createDataSet();
-	dataset->load("Watcher.xml", QCAR::DataSet::STORAGE_APPRESOURCE);
+	if (dataset->load("/data/data/com.aftersixapps.watcher/Watcher.xml", QCAR::DataSet::STORAGE_ABSOLUTE)) {
+		LOG("CARREGOU");
+	}
 	imageTracker->activateDataSet(dataset);
 }
 

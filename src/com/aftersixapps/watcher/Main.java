@@ -14,10 +14,10 @@ public class Main extends Activity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		FileDownloader downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.xml", "/mnt/sdcard/watcher/Watcher.xml");
+		FileDownloader downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.xml", "/data/data/com.aftersixapps.watcher/Watcher.xml");
 		downloader.download();
 		
-		downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.dat", "/mnt/sdcard/watcher/Watcher.dat");
+		downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.dat", "/data/data/com.aftersixapps.watcher/Watcher.dat");
 		downloader.download();
 		
 		
@@ -33,6 +33,7 @@ public class Main extends Activity {
 	
 	protected void onResume() {
 		super.onResume();
+//		bancoDeDados.abrir();
 		controller.onResume();
 	}
 	
@@ -40,6 +41,7 @@ public class Main extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		controller.onDestroy();
+		bancoDeDados.fechar();
 	}
 
 	@Override

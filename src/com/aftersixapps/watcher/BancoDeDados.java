@@ -8,9 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 public class BancoDeDados {
 
 	private SQLiteDatabase bd;
+	private Context context;
 
 	public BancoDeDados(Context context) {
-		inicializaBD(context);
+		this.context = context;
+		inicializaBD();
 	}
 
 	public Long adicionaTrackable(String nome, String url) {
@@ -34,9 +36,8 @@ public class BancoDeDados {
 				"nome = ?", new String[] { nome }, null, null, null);
 	}
 
-	private void inicializaBD(Context context) {
-		bd = context.openOrCreateDatabase("watcherdb", Context.MODE_PRIVATE,
-				null);
+	private void inicializaBD() {
+		abrir();
 
 		bd.execSQL("create table if not exists trackables "
 				+ "(id integer primary key, nome text, url text);");
@@ -49,6 +50,20 @@ public class BancoDeDados {
 				"http://www.youtube.com/watch?v=6hB3S9bIaco");
 		adicionaTrackable("skyrim",
 				"http://www.youtube.com/watch?v=MUNRNbEyh3o&feature=fvst");
+		adicionaTrackable("terminator2",
+				"http://www.youtube.com/watch?v=eajuMYNYtuY");
+		adicionaTrackable("rocky",
+				"http://www.youtube.com/watch?v=YgmK7110jYU");
+
+	}
+
+	public void abrir() {
+		bd = context.openOrCreateDatabase("watcherdb", Context.MODE_PRIVATE,
+				null);
+	}
+
+	public void fechar() {
+		bd.close();
 	}
 
 }

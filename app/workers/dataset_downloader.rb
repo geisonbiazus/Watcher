@@ -53,7 +53,8 @@ class DatasetDownloader
           trackable.save
         end
       end
-      
+
+      Versao.get_instance.incrementa!      
     end
   end
 end

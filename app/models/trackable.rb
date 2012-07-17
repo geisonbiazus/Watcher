@@ -7,6 +7,7 @@ class Trackable < ActiveRecord::Base
   attr_accessible :descricao, :observacao, :imagem, :url_video
   has_attached_file :imagem, :path => ":rails_root/public/#{CAMINHO_IMAGEM}", :url => CAMINHO_IMAGEM
 
+  validates :url_video, :presence => true
   validates :descricao, :presence => true, :uniqueness => true
   validates :imagem, :attachment_presence => true
 

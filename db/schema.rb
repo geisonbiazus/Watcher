@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120714012022) do
+ActiveRecord::Schema.define(:version => 20120717012937) do
 
   create_table "trackables", :force => true do |t|
     t.string   "descricao"
@@ -24,6 +24,12 @@ ActiveRecord::Schema.define(:version => 20120714012022) do
     t.datetime "imagem_updated_at"
     t.string   "url_video"
     t.boolean  "atualizado"
+  end
+
+  create_table "versoes", :force => true do |t|
+    t.integer  "numero"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

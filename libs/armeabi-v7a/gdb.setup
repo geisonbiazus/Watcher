@@ -1,2 +1,2 @@
 set solib-search-path ./obj/local/armeabi-v7a
-directory /home/geison/Programas/android-ndk-r7c/platforms/android-8/arch-arm/usr/include jni /home/geison/Programas/android-ndk-r7c/sources/cxx-stl/system/include /home/geison/workspace/CubeAr/qcar/include
+directory /home/geison/Programas/android-ndk-r8/platforms/android-8/arch-arm/usr/include jni /home/geison/Programas/android-ndk-r8/sources/cxx-stl/system/include /home/geison/Projetos/Watcher/qcar/include

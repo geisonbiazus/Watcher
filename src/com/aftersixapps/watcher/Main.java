@@ -14,11 +14,11 @@ public class Main extends Activity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		FileDownloader downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.xml", "/data/data/com.aftersixapps.watcher/Watcher.xml");
-		downloader.download();
-		
-		downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.dat", "/data/data/com.aftersixapps.watcher/Watcher.dat");
-		downloader.download();
+//		FileDownloader downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.xml", "/data/data/com.aftersixapps.watcher/Watcher.xml");
+//		downloader.download();
+//		
+//		downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.dat", "/data/data/com.aftersixapps.watcher/Watcher.dat");
+//		downloader.download();
 		
 		
 		super.onCreate(savedInstanceState);

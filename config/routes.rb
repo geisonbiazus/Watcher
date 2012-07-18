@@ -4,6 +4,9 @@ WatcherManager::Application.routes.draw do
 
   resources :trackables do as_routes end
 
+  get 'atualizacoes/ultima_versao'
+  get 'atualizacoes/trackables'
+
 #  resources :trackables
 
   # The priority is based upon order of creation:

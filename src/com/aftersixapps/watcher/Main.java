@@ -1,13 +1,22 @@
 package com.aftersixapps.watcher;
 
+import com.aftersixapps.watcher.R;
+import com.aftersixapps.watcher.R.layout;
+import com.aftersixapps.watcher.utils.BancoDeDados;
+import com.aftersixapps.watcher.utils.WebUtils;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
 public class Main extends Activity {
+	
+	public static final int MENU_ATUALIZAR = 0;
+	public static final int MENU_CONFIGURACOES = 1;
 	
 	private ARController controller;
 	private BancoDeDados bancoDeDados;
@@ -30,10 +39,20 @@ public class Main extends Activity {
 		controller = new ARController(this, bancoDeDados);		
 		controller.onCreate();
 	}
+
 	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		
+		menu.add(0, MENU_ATUALIZAR, 0, "Atualizar");
+		menu.add(0, MENU_CONFIGURACOES, 0, "Configurações");
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
-//		bancoDeDados.abrir();
 		controller.onResume();
 	}
 	

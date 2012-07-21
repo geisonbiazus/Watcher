@@ -1,4 +1,4 @@
-package com.aftersixapps.watcher;
+package com.aftersixapps.watcher.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;

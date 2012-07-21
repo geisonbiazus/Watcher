@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
+import com.aftersixapps.watcher.utils.BancoDeDados;
 import com.qualcomm.QCAR.QCAR;
 
 public class ARController {

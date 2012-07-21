@@ -3,6 +3,7 @@ package com.aftersixapps.watcher;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.aftersixapps.watcher.utils.BancoDeDados;
 import com.qualcomm.QCAR.QCAR;
 
 import android.app.Activity;

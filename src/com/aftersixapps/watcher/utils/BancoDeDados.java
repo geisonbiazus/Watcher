@@ -1,4 +1,6 @@
-package com.aftersixapps.watcher;
+package com.aftersixapps.watcher.utils;
+
+import com.aftersixapps.watcher.model.Configuracoes;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -26,14 +28,57 @@ public class BancoDeDados {
 		bd.delete("trackables", null, null);
 	}
 
-	// public Cursor todosOsProdutos() {
-	// return bd.query("produtos", new String[] { "id as _id", "descricao",
-	// "quantidade", "valor" }, null, null, null, null, null);
-	// }
-	//
 	public Cursor buscaTrackablePorNome(String nome) {
 		return bd.query("trackables", new String[] { "nome", "url" },
 				"nome = ?", new String[] { nome }, null, null, null);
+	}
+	
+	public int getVersao() {
+		Cursor cursor = bd.query("versao", new String[] {"numero"}, null, null, null, null, null);
+		int versao = 0;
+		
+		if (cursor.moveToNext()) {
+			versao = cursor.getInt(0);
+		}
+		cursor.close();
+		
+		return versao;
+	}
+	
+	public void setVersao(int versao) {
+		ContentValues values = new ContentValues();
+		values.put("numero", versao);
+		
+		if (getVersao() > 0) {
+			bd.update("versao", values, null, null);
+		} else {
+			bd.insert("versao", null, values);
+		}
+	}
+	
+	public Configuracoes getConfiguracoes() {
+		Cursor cursor = bd.query("configuracoes", new String[] {"url_servidor"}, null, null, null, null, null);
+		Configuracoes configuracoes = new Configuracoes();
+		
+		if (cursor.moveToNext()) {
+			configuracoes.setUrlServidor(cursor.getString(0));
+		}
+		
+		return configuracoes;
+	}
+	
+	
+	public void setConfiguracoes(Configuracoes configuracoes) {
+		Cursor cursor = bd.query("configuracoes", new String[] {"url_servidor"}, null, null, null, null, null);
+		
+		ContentValues values = new ContentValues();
+		values.put("url_servidor", configuracoes.getUrlServidor());
+		
+		if (cursor.moveToNext()) {
+			bd.update("configuracoes", values, null, null);
+		} else {
+			bd.insert("configuracoes", null, values);
+		}
 	}
 
 	private void inicializaBD() {
@@ -41,6 +86,13 @@ public class BancoDeDados {
 
 		bd.execSQL("create table if not exists trackables "
 				+ "(id integer primary key, nome text, url text);");
+		
+		bd.execSQL("create table if not exists versao "
+				+ "(numero integer);");		
+		
+		bd.execSQL("create table if not exists configuracoes "
+				+ "(url_servidor text);");
+		
 		limparTrackables();
 		adicionaTrackable("avengers",
 				"http://www.youtube.com/watch?v=Lj-DQOPHdPY");

@@ -6,14 +6,19 @@ import com.aftersixapps.watcher.utils.BancoDeDados;
 import com.aftersixapps.watcher.utils.WebUtils;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 
-public class Main extends Activity {
+public class MainActivity extends Activity {
 	
 	public static final int MENU_ATUALIZAR = 0;
 	public static final int MENU_CONFIGURACOES = 1;
@@ -48,6 +53,24 @@ public class Main extends Activity {
 		menu.add(0, MENU_ATUALIZAR, 0, "Atualizar");
 		menu.add(0, MENU_CONFIGURACOES, 0, "Configurações");
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+
+		switch (item.getItemId()) {
+		case MENU_CONFIGURACOES:
+			Intent intent = new Intent(this, ConfiguracoesActivity.class);
+			startActivity(intent);
+			
+			break;
+		case MENU_ATUALIZAR:
+			ProgressDialog.show(this, "Atualizando", "Aguarde, atualização em andamento...");
+			
+			break;
+		}
+
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 	@Override

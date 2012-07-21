@@ -64,6 +64,8 @@ public class BancoDeDados {
 			configuracoes.setUrlServidor(cursor.getString(0));
 		}
 		
+		cursor.close();
+		
 		return configuracoes;
 	}
 	
@@ -79,6 +81,8 @@ public class BancoDeDados {
 		} else {
 			bd.insert("configuracoes", null, values);
 		}
+		
+		cursor.close();
 	}
 
 	private void inicializaBD() {

@@ -13,7 +13,7 @@
         android:launchMode="singleTask"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
-            android:name="com.aftersixapps.watcher.Main"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="ConfiguracoesActivity"></activity>        
     </application>
 
     <uses-feature android:name="android.hardware.camera" />

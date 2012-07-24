@@ -2,6 +2,8 @@ package com.aftersixapps.watcher;
 
 import com.aftersixapps.watcher.R;
 import com.aftersixapps.watcher.R.layout;
+import com.aftersixapps.watcher.model.Configuracoes;
+import com.aftersixapps.watcher.tasks.AtualizadorTask;
 import com.aftersixapps.watcher.utils.BancoDeDados;
 import com.aftersixapps.watcher.utils.WebUtils;
 
@@ -28,12 +30,6 @@ public class MainActivity extends Activity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-//		FileDownloader downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.xml", "/data/data/com.aftersixapps.watcher/Watcher.xml");
-//		downloader.download();
-//		
-//		downloader = new FileDownloader("http://192.168.1.106:3000/Watcher.dat", "/data/data/com.aftersixapps.watcher/Watcher.dat");
-//		downloader.download();
-		
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -41,8 +37,12 @@ public class MainActivity extends Activity {
 		iniciaAplicacao();
 		bancoDeDados = new BancoDeDados(this);
 		
+		Configuracoes configuracoes = bancoDeDados.getConfiguracoes();
+		configuracoes.setUrlServidor("http://192.168.1.104:3000");
+		bancoDeDados.setConfiguracoes(configuracoes);
+		
 		controller = new ARController(this, bancoDeDados);		
-		controller.onCreate();
+//		controller.onCreate();
 	}
 
 	
@@ -65,7 +65,8 @@ public class MainActivity extends Activity {
 			
 			break;
 		case MENU_ATUALIZAR:
-			ProgressDialog.show(this, "Atualizando", "Aguarde, atualização em andamento...");
+			AtualizadorTask task = new AtualizadorTask(this, bancoDeDados);
+			task.execute(bancoDeDados.getConfiguracoes().getUrlServidor());
 			
 			break;
 		}
@@ -76,20 +77,20 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		controller.onResume();
+//		controller.onResume();
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		controller.onDestroy();
+//		controller.onDestroy();
 		bancoDeDados.fechar();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		controller.onPause();
+//		controller.onPause();
 	}
 	
 	@Override

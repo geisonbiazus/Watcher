@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class WebUtils {
 
-	public static String getTextFromUrl(String endereco) {
+	public static String getTextFromUrl(String endereco) throws IOException {
 
 		String retorno = null;
 
@@ -38,8 +38,6 @@ public class WebUtils {
 
 		} catch (MalformedURLException e) {
 			Log.e("ERRO", "Formato da url incorreto.");
-		} catch (IOException e) {
-			Log.e("ERRO", "Erro ao acessar URL.");
 		}
 
 		return retorno;

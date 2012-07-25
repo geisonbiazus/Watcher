@@ -44,6 +44,7 @@ void iniciaCamera();
 void setProjectionMatrix();
 void pararCamera();
 void finalizaTracker();
+void desativaDataset();
 void iniciaRenderizacao();
 void atualizaRenderizacao(jint largura, jint altura);
 void renderizaFrame(JNIEnv* env, jobject obj);
@@ -68,6 +69,9 @@ Java_com_aftersixapps_watcher_ARController_pararCamera(JNIEnv *, jobject);
 
 JNIEXPORT void JNICALL
 Java_com_aftersixapps_watcher_ARController_finalizaTracker(JNIEnv *, jobject);
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_desativaDataset(JNIEnv *, jobject);
 
 JNIEXPORT void JNICALL
 Java_com_aftersixapps_watcher_ARRenderer_iniciaRenderizacao(JNIEnv *, jobject);

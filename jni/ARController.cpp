@@ -104,13 +104,13 @@ void carregaDadosDoTracker() {
 			trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
 
 	dataset = imageTracker->createDataSet();
-	if (dataset->load("Watcher.xml", QCAR::DataSet::STORAGE_APPRESOURCE)) {
-		LOG("CARREGOU");
-	}
+//	if (dataset->load("Watcher.xml", QCAR::DataSet::STORAGE_APPRESOURCE)) {
+//		LOG("CARREGOU");
+//	}
 
-//	if (dataset->load("/data/data/com.aftersixapps.watcher/Watcher.xml", QCAR::DataSet::STORAGE_ABSOLUTE)) {
-//			LOG("CARREGOU");
-//		}
+	if (dataset->load("/data/data/com.aftersixapps.watcher/files/Watcher.xml", QCAR::DataSet::STORAGE_ABSOLUTE)) {
+			LOG("CARREGOU");
+    }
 
 	imageTracker->activateDataSet(dataset);
 }
@@ -146,11 +146,18 @@ void pararCamera() {
 
 void finalizaTracker() {
 	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+
+	desativaDataset();
+
+	trackerManager.deinitTracker(QCAR::Tracker::IMAGE_TRACKER);
+}
+
+void desativaDataset() {
+	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
 	QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
 			trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
 
 	imageTracker->deactivateDataSet(dataset);
-	trackerManager.deinitTracker(QCAR::Tracker::IMAGE_TRACKER);
 }
 
 void iniciaRenderizacao() {
@@ -306,6 +313,13 @@ Java_com_aftersixapps_watcher_ARController_finalizaTracker(JNIEnv *, jobject)
 	LOG("Java_com_aftersixapps_watcher_ARController_finalizaTracker");
 	finalizaTracker();
 }
+
+JNIEXPORT void JNICALL
+Java_com_aftersixapps_watcher_ARController_desativaDataset(JNIEnv *, jobject) {
+	LOG("Java_com_aftersixapps_watcher_ARController_desativaDataset");
+	desativaDataset();
+}
+
 
 //////////////////////////////////////////
 // Métodos dativos da classe ARRenderer //

@@ -88,7 +88,7 @@ public class ARController {
 
 	private native void iniciaAplicacaoNative(int largura, int altura);
 
-	private native void carregaDadosDoTracker();
+	public native void carregaDadosDoTracker();
 
 	private native void iniciaCamera();
 
@@ -97,5 +97,7 @@ public class ARController {
 	private native void pararCamera();
 
 	private native void finalizaTracker();
+	
+	public native void desativaDataset();
 
 }

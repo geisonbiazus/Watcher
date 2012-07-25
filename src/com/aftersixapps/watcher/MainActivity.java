@@ -1,15 +1,8 @@
 package com.aftersixapps.watcher;
 
-import com.aftersixapps.watcher.R;
-import com.aftersixapps.watcher.R.layout;
-import com.aftersixapps.watcher.model.Configuracoes;
-import com.aftersixapps.watcher.tasks.AtualizadorTask;
-import com.aftersixapps.watcher.utils.BancoDeDados;
-import com.aftersixapps.watcher.utils.WebUtils;
+import java.util.List;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -18,7 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.WindowManager;
-import android.widget.ProgressBar;
+
+import com.aftersixapps.watcher.model.Configuracoes;
+import com.aftersixapps.watcher.model.Trackable;
+import com.aftersixapps.watcher.tasks.AtualizadorTask;
+import com.aftersixapps.watcher.utils.BancoDeDados;
 
 public class MainActivity extends Activity {
 	
@@ -38,11 +35,11 @@ public class MainActivity extends Activity {
 		bancoDeDados = new BancoDeDados(this);
 		
 		Configuracoes configuracoes = bancoDeDados.getConfiguracoes();
-		configuracoes.setUrlServidor("http://192.168.1.104:3000");
+		configuracoes.setUrlServidor("http://192.168.1.10:3000");
 		bancoDeDados.setConfiguracoes(configuracoes);
 		
 		controller = new ARController(this, bancoDeDados);		
-//		controller.onCreate();
+		controller.onCreate();
 	}
 
 	
@@ -65,8 +62,8 @@ public class MainActivity extends Activity {
 			
 			break;
 		case MENU_ATUALIZAR:
-			AtualizadorTask task = new AtualizadorTask(this, bancoDeDados);
-			task.execute(bancoDeDados.getConfiguracoes().getUrlServidor());
+			AtualizadorTask task = new AtualizadorTask(this, bancoDeDados, controller);
+			task.execute();
 			
 			break;
 		}
@@ -77,20 +74,20 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		controller.onResume();
+		controller.onResume();
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-//		controller.onDestroy();
+		controller.onDestroy();
 		bancoDeDados.fechar();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-//		controller.onPause();
+		controller.onPause();
 	}
 	
 	@Override

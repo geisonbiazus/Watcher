@@ -1,10 +1,10 @@
 class AtualizacoesController < ApplicationController
 
   def ultima_versao
-    render :xml => "<versao>#{Versao.get_instance.numero}</versao>"
+    render :text => Versao.get_instance.numero
   end
 
   def trackables
-    render :json => Trackable.all.to_json(:only => [:descricao, :url_video])
+    render :json => Trackable.all.to_json(:only => [:descricao, :url_video, :observacao])
   end
 end

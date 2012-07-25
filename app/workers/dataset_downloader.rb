@@ -37,15 +37,17 @@ class DatasetDownloader
 
       d.close
     
-      File.delete("#{DOWNLOAD_DIR}/Watcher.dat")
-      File.delete("#{DOWNLOAD_DIR}/Watcher.xml")
+      File.delete("#{DOWNLOAD_DIR}/Watcher.dat") rescue nil
+      File.delete("#{DOWNLOAD_DIR}/Watcher.xml") rescue nil
     
 
-      system("unzip #{FILE_URL} -d #{DOWNLOAD_DIR}")
+      system("unzip #{FILE_URL} -d #{DOWNLOAD_DIR}") 
+
+      sleep 2
 
       File.delete(FILE_URL)
 
-      xml = XmlSimple.xml_in('/home/geison/projetos/WatcherManager/public/dataset/Watcher.xml')
+      xml = XmlSimple.xml_in("#{Rails.root}/public/dataset/Watcher.xml")
 
       xml['Tracking'].first["ImageTarget"].each do |item|
         if trackable = Trackable.find_by_descricao(item["name"])

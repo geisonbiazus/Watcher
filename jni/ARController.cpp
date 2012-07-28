@@ -21,12 +21,14 @@ class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
 				QCAR::Trackable* trackable = dataset->getTrackable(tIdx);
 
 				QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
-				QCAR::Rectangle vbRectangle(-5.0,  5.0, 5.0, -5.0);
+				QCAR::Rectangle vbRectangle(-50.0,  -50.0, 50.0, -75.0);
 				QCAR::VirtualButton* virtualButton = imageTarget->createVirtualButton("botao", vbRectangle);
 
 				virtualButton->setEnabled(true);
-				virtualButton->setSensitivity(QCAR::VirtualButton::MEDIUM);
+				virtualButton->setSensitivity(QCAR::VirtualButton::HIGH);
 			}
+
+
 
 			imageTracker->activateDataSet(dataset);
 			criarBotao = false;

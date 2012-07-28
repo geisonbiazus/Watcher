@@ -23,7 +23,7 @@ LOCAL_LDLIBS := \
      
 LOCAL_SHARED_LIBRARIES := QCAR-prebuilt
 
-LOCAL_SRC_FILES := ARController.cpp
+LOCAL_SRC_FILES := ARController.cpp Texture.cpp
 
 LOCAL_ARM_MODE := arm
 

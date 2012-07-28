@@ -46,7 +46,8 @@ obj/local/armeabi/objs-debug/Watcher/ARController.o: jni/ARController.cpp \
  /home/geison/Projetos/Watcher/qcar/include/QCAR/Rectangle.h \
  /home/geison/Projetos/Watcher/qcar/include/QCAR/Area.h \
  /home/geison/Projetos/Watcher/qcar/include/QCAR/VirtualButton.h \
- /home/geison/Projetos/Watcher/qcar/include/QCAR/ImageTarget.h jni/cube.h
+ /home/geison/Projetos/Watcher/qcar/include/QCAR/ImageTarget.h jni/cube.h \
+ jni/Texture.h
 
 jni/ARController.h:
 
@@ -145,3 +146,5 @@ jni/ARController.h:
 /home/geison/Projetos/Watcher/qcar/include/QCAR/ImageTarget.h:
 
 jni/cube.h:
+
+jni/Texture.h:

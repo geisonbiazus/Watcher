@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.aftersixapps.watcher.ARController;
 import com.aftersixapps.watcher.model.Trackable;
@@ -53,6 +54,8 @@ public class AtualizadorTask extends AsyncTask<String, Void, Void> {
 				atualizaTrackables();
 				
 				bancoDeDados.setVersao(ultimaVersao);
+				
+				Toast.makeText(context, "Trackables atualizados com sucesso.", Toast.LENGTH_SHORT).show();
 			}
 
 		} catch (NumberFormatException e) {

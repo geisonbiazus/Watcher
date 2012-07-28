@@ -23,6 +23,7 @@
 #include <QCAR/ImageTarget.h>
 
 #include "cube.h"
+#include "Texture.h"
 
 // Log:
 #define LOG_TAG    "AR_CONTROLLER"

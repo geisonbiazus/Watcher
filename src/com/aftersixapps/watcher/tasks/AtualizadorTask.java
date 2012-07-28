@@ -18,8 +18,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
-public class AtualizadorTask extends AsyncTask<String, Void, Void> {
+public class AtualizadorTask extends AsyncTask<String, Void, Integer> {
 
+	public static int ATUALIZADO = 0;
+	public static int ULTIMA_VERSAO = 1;
+	public static int ERRO = 2;
+	
 	private Context context;
 	private BancoDeDados bancoDeDados;
 	private ProgressDialog dialog;
@@ -41,7 +45,7 @@ public class AtualizadorTask extends AsyncTask<String, Void, Void> {
 	}
 
 	@Override
-	protected Void doInBackground(String... params) {
+	protected Integer doInBackground(String... params) {
 		String urlVersao = url + "/atualizacoes/ultima_versao";
 
 		try {
@@ -55,22 +59,28 @@ public class AtualizadorTask extends AsyncTask<String, Void, Void> {
 				
 				bancoDeDados.setVersao(ultimaVersao);
 				
-				Toast.makeText(context, "Trackables atualizados com sucesso.", Toast.LENGTH_SHORT).show();
+				return ATUALIZADO;
+			} else {
+				return ULTIMA_VERSAO;
 			}
 
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			return ERRO;
 		}
-
-		return null;
 	}
 
 	@Override
-	protected void onPostExecute(Void result) {
+	protected void onPostExecute(Integer result) {
 		controller.carregaDadosDoTracker();
 		dialog.dismiss();
+		
+		if (result == ATUALIZADO) {
+			Toast.makeText(context, "Trackables atualizados com sucesso", Toast.LENGTH_SHORT).show();
+		} else if (result == ULTIMA_VERSAO) {
+			Toast.makeText(context, "Trackables já estão na versão mais recente!", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(context, "Erro ao atualizar", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	private void downloadDataset() {
@@ -103,3 +113,4 @@ public class AtualizadorTask extends AsyncTask<String, Void, Void> {
 	}
 
 }
+

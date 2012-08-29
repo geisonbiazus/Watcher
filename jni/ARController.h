@@ -23,7 +23,6 @@
 #include <QCAR/ImageTarget.h>
 
 #include "cube.h"
-#include "Teapot.h"
 #include "Texture.h"
 
 // Log:

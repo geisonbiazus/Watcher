@@ -18,10 +18,6 @@
 #define NUM_CUBE_OBJECT_VERTEX 482//8
 #define NUM_CUBE_OBJECT_INDEX 1984//36
 
-float width = 20.0;
-float height = 20.0;
-float depth = 20.0;
-
 
 static const float cubeVertices[NUM_CUBE_OBJECT_VERTEX * 3] =
 {
@@ -39,14 +35,6 @@ static const float cubeVertices[NUM_CUBE_OBJECT_VERTEX * 3] =
 
 
 static const float cubeColors[NUM_CUBE_OBJECT_VERTEX * 4] = {
-//                               0.0,  1.0,  0.0,  1.0,
-//                               0.0,  1.0,  0.0,  1.0,
-//                               1.0,  0.5,  0.0,  1.0,
-//                               1.0,  0.5,  0.0,  1.0,
-//                               1.0,  0.0,  0.0,  1.0,
-//                               1.0,  0.0,  0.0,  1.0,
-//                               0.0,  0.0,  1.0,  1.0,
-//                               1.0,  0.0,  1.0,  1.0
                                0.0,  1.0,  0.0,  1.0,
                                0.0,  1.0,  0.0,  1.0,
                                0.0,  1.0,  0.0,  1.0,

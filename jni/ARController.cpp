@@ -199,7 +199,7 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+//	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
@@ -228,7 +228,7 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 			const QCAR::VirtualButton* button = target->getVirtualButton(i);
 
 			// If the button is pressed, than use this texture:
-			if (false) //(button->isPressed())
+			if (button->isPressed())
 			{
 				 // Handle to the activity class:
 				jclass cls = env->GetObjectClass(obj);
@@ -258,7 +258,7 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 		glTranslatef(0.f, 0.f, kObjectScale);
 		glScalef(kObjectScale, kObjectScale, kObjectScale);
 
-		const Texture* const thisTexture = textura;
+//		const Texture* const thisTexture = textura;
 
 		glFrontFace(GL_CW);
 

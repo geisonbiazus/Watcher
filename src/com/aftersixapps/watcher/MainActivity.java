@@ -32,10 +32,6 @@ public class MainActivity extends Activity {
 		iniciaAplicacao();
 		bancoDeDados = new BancoDeDados(this);
 		
-		Configuracoes configuracoes = bancoDeDados.getConfiguracoes();
-		configuracoes.setUrlServidor("http://192.168.1.10:3000");
-		bancoDeDados.setConfiguracoes(configuracoes);
-		
 		controller = new ARController(this, bancoDeDados);		
 		controller.onCreate();
 	}	

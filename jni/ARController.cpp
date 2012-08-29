@@ -92,9 +92,15 @@ void iniciaTracker() {
 	QCAR::Tracker* tracker = trackerManager.initTracker(QCAR::Tracker::IMAGE_TRACKER);
 }
 
-void iniciaAplicacao(jint largura, jint altura) {
+void iniciaAplicacao(JNIEnv* env, jobject obj, jint largura, jint altura) {
 	larguraDaTela = largura;
 	alturaDaTela = altura;
+
+	jclass controllerClass = env->GetObjectClass(obj);
+	jmethodID getTexturaMethodID = env->GetMethodID(controllerClass,
+	        "getTextura", "()Lcom/aftersixapps/watcher/utils/Texture;");
+	jobject objetoTextura = env->CallObjectMethod(obj, getTexturaMethodID);
+	textura = Texture::create(env, objetoTextura);
 
 	QCAR::registerCallback(&qcarUpdate);
 }
@@ -164,7 +170,17 @@ void desativaDataset() {
 
 void iniciaRenderizacao() {
 	// Define clear color
-	glClearColor(0.0f, 0.0f, 0.0f, QCAR::requiresAlpha() ? 0.0f : 1.0f);}
+	glClearColor(0.0f, 0.0f, 0.0f, QCAR::requiresAlpha() ? 0.0f : 1.0f);
+
+   // Now generate the OpenGL texture objects and add settings
+   glGenTextures(1, &(textura->mTextureID));
+   glBindTexture(GL_TEXTURE_2D, textura->mTextureID);
+   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textura->mWidth,
+		        textura->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                (GLvoid*)  textura->mData);
+}
 
 void atualizaRenderizacao(jint largura, jint altura) {
 	larguraDaTela = largura;
@@ -183,6 +199,7 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
@@ -198,11 +215,6 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 
 		const QCAR::ImageTarget* target = static_cast<const QCAR::ImageTarget*>(trackable);
 
-
-		if (strcmp(trackable->getName(), "avengers") == 0) {
-			LOG("Imagem detectada");
-		}
-
 		if (target->getNumVirtualButtons() == 0) {
 			criarBotao = true;
 		}
@@ -216,7 +228,7 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 			const QCAR::VirtualButton* button = target->getVirtualButton(i);
 
 			// If the button is pressed, than use this texture:
-			if (button->isPressed())
+			if (false) //(button->isPressed())
 			{
 				 // Handle to the activity class:
 				jclass cls = env->GetObjectClass(obj);
@@ -246,20 +258,25 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 		glTranslatef(0.f, 0.f, kObjectScale);
 		glScalef(kObjectScale, kObjectScale, kObjectScale);
 
+		const Texture* const thisTexture = textura;
+
 		glFrontFace(GL_CW);
 
-
+//		glBindTexture(GL_TEXTURE_2D, textura->mTextureID);
+//		glTexCoordPointer(2, GL_FLOAT, 0, (const GLvoid*) &cubeTexCoords[0]);
 		glVertexPointer(3, GL_FLOAT, 0, (const GLvoid*) &cubeVertices[0]);
 		glColorPointer(4, GL_FLOAT, 0, (const GLvoid*) &cubeColors[0]);
 
 		glDrawElements(GL_TRIANGLES, NUM_CUBE_OBJECT_INDEX, GL_UNSIGNED_SHORT,
-				(const GLvoid*) &cubeIndices[0]);
+						(const GLvoid*) &cubeIndices[0]);
+
 	}
 	glDisable(GL_DEPTH_TEST);
 
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
+//	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	QCAR::Renderer::getInstance().end();
 }
@@ -276,7 +293,7 @@ Java_com_aftersixapps_watcher_ARController_iniciaAplicacaoNative(
 		JNIEnv* env, jobject obj, jint largura, jint altura)
 {
 	LOG("Java_com_aftersixapps_watcher_ARController_iniciaAplicacaoNative");
-	iniciaAplicacao(largura, altura);
+	iniciaAplicacao(env, obj, largura, altura);
 }
 
 JNIEXPORT void JNICALL

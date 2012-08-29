@@ -1,7 +1,5 @@
 package com.aftersixapps.watcher;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -40,9 +38,7 @@ public class MainActivity extends Activity {
 		
 		controller = new ARController(this, bancoDeDados);		
 		controller.onCreate();
-	}
-
-	
+	}	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

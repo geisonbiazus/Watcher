@@ -3,10 +3,12 @@ package com.aftersixapps.watcher;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import com.aftersixapps.watcher.utils.BancoDeDados;
+import com.aftersixapps.watcher.utils.Texture;
 import com.qualcomm.QCAR.QCAR;
 
 public class ARController {
@@ -20,16 +22,20 @@ public class ARController {
 	private GLSurfaceView glView;
 	private ARRenderer renderer;
 	private BancoDeDados bancoDeDados;
+	private Texture textura;
 
 	public ARController(Activity activity, BancoDeDados bancoDeDados) {
 		this.activity = activity;
 		this.bancoDeDados = bancoDeDados;
+		this.textura = Texture.loadTextureFromApk("texture.png", activity.getAssets());
+		
+		Log.i("textura", "" + textura.getData());
 	}
 
-	public void onCreate() {
+	public void onCreate() {		
 		iniciaQCAR();
-		iniciaTracker();
-		iniciaAplicacaoAR();
+		iniciaTracker();		
+		iniciaAplicacaoAR();		
 		carregaDadosDoTracker();
 		addGLView();
 	}
@@ -51,7 +57,12 @@ public class ARController {
 		finalizaTracker();
 		QCAR.deinit();
 	}
-
+	
+	public Texture getTextura() {
+		Log.i("WATCHER", "TEXTURA CARREGADA");
+		return this.textura;
+	}
+	
 	private void iniciaQCAR() {
 		QCAR.setInitParameters(activity, QCAR.GL_11);
 		QCAR.init();

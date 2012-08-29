@@ -23,6 +23,7 @@
 #include <QCAR/ImageTarget.h>
 
 #include "cube.h"
+#include "Teapot.h"
 #include "Texture.h"
 
 // Log:
@@ -36,10 +37,12 @@ unsigned int alturaDaTela = 0;
 bool criarBotao = true;
 QCAR::DataSet* dataset = 0;
 QCAR::Matrix44F projectionMatrix; // Matriz de projeção usada para renderizar os objetos
+Texture* textura;
+
 
 void configureVideoBackground();
 void iniciaTracker();
-void iniciaAplicacao(jint largura, jint altura);
+void iniciaAplicacao(JNIEnv* env, jobject obj, jint largura, jint altura);
 void carregaDadosDoTracker();
 void iniciaCamera();
 void setProjectionMatrix();

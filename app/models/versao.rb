@@ -10,4 +10,8 @@ class Versao < ActiveRecord::Base
     self.save
   end
 
+  def self.atualizar
+    Resque.enqueue_to("baixar_datasets", "DatasetDownloader")
+  end
+
 end

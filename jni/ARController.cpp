@@ -6,7 +6,7 @@ class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
 		if (criarBotao) {
 
 			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-			LOG("Criando botão virtual");
+			LOG("Criando botões virtuais");
 			LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
 			QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
@@ -20,8 +20,13 @@ class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
 
 				QCAR::Trackable* trackable = dataset->getTrackable(tIdx);
 
+				LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+				LOG(trackable->getName());
+				LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
 				QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
-				QCAR::Rectangle vbRectangle(-50.0,  -50.0, 50.0, -75.0);
+//				QCAR::Rectangle vbRectangle(-50.0,  -50.0, 50.0, -75.0);
+				QCAR::Rectangle vbRectangle(-50.0,  0.0, 50.0, -75.0);
 				QCAR::VirtualButton* virtualButton = imageTarget->createVirtualButton("botao", vbRectangle);
 
 				virtualButton->setEnabled(true);

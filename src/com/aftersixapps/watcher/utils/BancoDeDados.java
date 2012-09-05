@@ -125,8 +125,6 @@ public class BancoDeDados {
 
 	private void inicializaBD() {
 		abrir();
-
-//		bd.execSQL("drop table trackables;");
 		
 		bd.execSQL("create table if not exists trackables "
 				+ "(id integer primary key, descricao text, url_video text, observacao text);");
@@ -137,20 +135,6 @@ public class BancoDeDados {
 		bd.execSQL("create table if not exists configuracoes "
 				+ "(url_servidor text);");
 		
-//		limparTrackables();
-//		adicionaTrackable("avengers",
-//				"http://www.youtube.com/watch?v=Lj-DQOPHdPY");
-//		adicionaTrackable("avatar",
-//				"http://www.youtube.com/watch?v=5PSNL1qE6VY");
-//		adicionaTrackable("shawshankredemption",
-//				"http://www.youtube.com/watch?v=6hB3S9bIaco");
-//		adicionaTrackable("skyrim",
-//				"http://www.youtube.com/watch?v=MUNRNbEyh3o&feature=fvst");
-//		adicionaTrackable("terminator2",
-//				"http://www.youtube.com/watch?v=eajuMYNYtuY");
-//		adicionaTrackable("rocky",
-//				"http://www.youtube.com/watch?v=YgmK7110jYU");
-
 	}
 
 	public void abrir() {

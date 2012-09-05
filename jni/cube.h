@@ -1,22 +1,9 @@
-/*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
-@file 
-    Teapot.h
-
-@brief
-    Geometry for the teapot used in the samples.
-
-==============================================================================*/
-
 #ifndef _QCAR_CUBE_OBJECT_H_
 #define _QCAR_CUBE_OBJECT_H_
 
 
-#define NUM_CUBE_OBJECT_VERTEX 482//8
-#define NUM_CUBE_OBJECT_INDEX 1984//36
+#define NUM_CUBE_OBJECT_VERTEX 482
+#define NUM_CUBE_OBJECT_INDEX 1984
 
 
 static const float cubeVertices[NUM_CUBE_OBJECT_VERTEX * 3] =

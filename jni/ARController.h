@@ -23,7 +23,6 @@
 #include <QCAR/ImageTarget.h>
 
 #include "cube.h"
-#include "Texture.h"
 
 // Log:
 #define LOG_TAG    "AR_CONTROLLER"
@@ -36,8 +35,6 @@ unsigned int alturaDaTela = 0;
 bool criarBotao = true;
 QCAR::DataSet* dataset = 0;
 QCAR::Matrix44F projectionMatrix; // Matriz de projeção usada para renderizar os objetos
-Texture* textura;
-
 
 void configureVideoBackground();
 void iniciaTracker();

@@ -1,0 +1,14 @@
+development: &default
+  adapter: postgresql
+  encoding: unicode
+  database: watcher_manager_development
+  host: localhost
+  username: facilitador
+  password: facilitador
+
+test:
+  <<: *default
+  database: watcher_manager_test
+
+production:
+  <<: *default

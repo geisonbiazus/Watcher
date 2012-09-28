@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, Main!</string>
+    <string name="url_servidor">URL do servidor de atualização</string>
+    <string name="app_name">Watcher</string>
+    <string name="gravar">Gravar</string>
+
+</resources>

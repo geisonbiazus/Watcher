@@ -2,6 +2,8 @@ WatcherManager::Application.routes.draw do
 
   mount Resque::Server, :at => "/resque"
 
+  root :to => 'trackables#index'
+
   resources :trackables do as_routes end
 
   get 'atualizacoes/ultima_versao'

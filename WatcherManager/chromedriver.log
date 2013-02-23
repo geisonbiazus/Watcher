@@ -1,0 +1,79 @@
+[0.000][INFO]:      ChromeDriver 26.0.1383.0 /home/geison/Programas/bin/chromedriver
+[0.255][FINE]:      Initializing session with capabilities {
+   "browserName": "chrome",
+   "chrome.detach": true,
+   "chrome.extensions": [  ],
+   "chrome.profile": "UEsDBBQAAAAIAHcEV0Jh0x7+RgAAAE4AAAATAAAARGVmYXVsdC9QcmVmZXJlbmNlc0XIQQqAIBAF0Lv8deDey4g0Ywnml9GIE...",
+   "chromeOptions": {
+      "detach": true,
+      "extensions": [  ],
+      "profile": "UEsDBBQAAAAIAHcEV0Jh0x7+RgAAAE4AAAATAAAARGVmYXVsdC9QcmVmZXJlbmNlc0XIQQqAIBAF0Lv8deDey4g0Ywnml9GIE..."
+   },
+   "cssSelectorsEnabled": true,
+   "javascriptEnabled": true,
+   "nativeEvents": false,
+   "platform": "ANY",
+   "rotatable": false,
+   "takesScreenshot": false,
+   "version": ""
+}
+
+[0.256][INFO]:      Using named testing interface
+[2.199][INFO]:      Connected to Chrome successfully. Version: 25.0.1364.97
+[2.379][FINE]:      Command received (/session/ebbc09ecec9512b1651c6ca5847d1b3f)
+[2.380][FINE]:      Command finished (/session/ebbc09ecec9512b1651c6ca5847d1b3f) with response {
+   "sessionId": "ebbc09ecec9512b1651c6ca5847d1b3f",
+   "status": 0,
+   "value": {
+      "acceptSslCerts": false,
+      "applicationCacheEnabled": false,
+      "browserConnectionEnabled": false,
+      "browserName": "chrome",
+      "chrome.chromedriverVersion": "26.0.1383.0",
+      "cssSelectorsEnabled": true,
+      "databaseEnabled": false,
+      "handlesAlerts": true,
+      "javascriptEnabled": true,
+      "locationContextEnabled": false,
+      "nativeEvents": true,
+      "platform": "linux",
+      "rotatable": false,
+      "takesScreenshot": true,
+      "version": "25.0.1364.97",
+      "webStorageEnabled": true
+   }
+}
+
+[2.381][FINE]:      Command received (/session/ebbc09ecec9512b1651c6ca5847d1b3f/url) with params {
+   "url": "https://ar.qualcomm.at/user?destination=sdk"
+}
+
+[2.381][FINER]:     Waiting for all views to stop loading...
+[2.381][FINER]:     Done waiting for all views to stop loading
+[13.233][FINER]:    Waiting for all views to stop loading...
+[13.235][FINER]:    Done waiting for all views to stop loading
+[13.236][FINE]:     Command finished (/session/ebbc09ecec9512b1651c6ca5847d1b3f/url) with response {
+   "sessionId": "ebbc09ecec9512b1651c6ca5847d1b3f",
+   "status": 0,
+   "value": {
+
+   }
+}
+
+[13.237][FINE]:     Command received (/session/ebbc09ecec9512b1651c6ca5847d1b3f/element) with params {
+   "using": "id",
+   "value": "edit-name"
+}
+
+[13.237][FINER]:    Waiting for all views to stop loading...
+[13.238][FINER]:    Done waiting for all views to stop loading
+[13.264][FINER]:    Waiting for all views to stop loading...
+[13.264][FINER]:    Done waiting for all views to stop loading
+[13.264][WARNING]:  Command finished (/session/ebbc09ecec9512b1651c6ca5847d1b3f/element) with response {
+   "sessionId": "ebbc09ecec9512b1651c6ca5847d1b3f",
+   "status": 7,
+   "value": {
+      "message": "The element could not be found"
+   }
+}
+

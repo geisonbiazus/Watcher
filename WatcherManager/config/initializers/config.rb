@@ -1,0 +1,1 @@
+$config = YAML.load_file(File.join(Rails.root.to_s, 'config', 'config.yml'))

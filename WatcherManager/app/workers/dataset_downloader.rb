@@ -19,11 +19,11 @@ class DatasetDownloader
       d = Selenium::WebDriver.for :chrome, :profile => profile
 
       d.get "https://ar.qualcomm.at/user?destination=sdk"
-      d.find_element(:id, "edit-name").send_keys "geisonbiazus@gmail.com"
-      d.find_element(:id, "edit-pass").send_keys "0787gb"
+      d.find_element(:id, "edit-name").send_keys $config["tms"]["usuario"]
+      d.find_element(:id, "edit-pass").send_keys $config["tms"]["senha"]
       d.find_element(:id, "edit-submit-1").click
 
-      d.get "https://ar.qualcomm.at/project/1137799"
+      d.get "https://ar.qualcomm.at/project/#{$config["tms"]["projeto"]}"
 
       d.find_element(:link, "All").click
 

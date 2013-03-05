@@ -10,6 +10,9 @@
 #include <QCAR/CameraDevice.h>
 #include <QCAR/Renderer.h>
 #include <QCAR/VideoBackgroundConfig.h>
+#include <QCAR/TrackableResult.h>
+#include <QCAR/ImageTargetResult.h>
+#include <QCAR/VirtualButtonResult.h>
 #include <QCAR/Trackable.h>
 #include <QCAR/Tool.h>
 #include <QCAR/Tracker.h>

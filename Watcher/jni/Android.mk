@@ -4,7 +4,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := QCAR-prebuilt
 LOCAL_SRC_FILES = ../qcar/lib/$(TARGET_ARCH_ABI)/libQCAR.so
-LOCAL_EXPORT_C_INCLUDES := /home/geison/Projetos/Watcher/qcar/include
+LOCAL_EXPORT_C_INCLUDES := /home/geison/Projetos/Watcher/Watcher/qcar/include
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)

@@ -13,7 +13,6 @@ class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
 			QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
 					trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
 
-
 			imageTracker->deactivateDataSet(dataset);
 
 			for(int tIdx = 0; tIdx < dataset->getNumTrackables(); tIdx++) {
@@ -25,15 +24,13 @@ class VirtualButton_UpdateCallback: public QCAR::UpdateCallback {
 				LOG("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
 				QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
-//				QCAR::Rectangle vbRectangle(-50.0,  -50.0, 50.0, -75.0);
-				QCAR::Rectangle vbRectangle(-50.0,  0.0, 50.0, -75.0);
+				QCAR::Rectangle vbRectangle(-20.0, -50.0, 20.0, -30.0);
+				//QCAR::Rectangle vbRectangle(-50.0,  0.0, 50.0, -75.0);
 				QCAR::VirtualButton* virtualButton = imageTarget->createVirtualButton("botao", vbRectangle);
 
 				virtualButton->setEnabled(true);
 				virtualButton->setSensitivity(QCAR::VirtualButton::HIGH);
 			}
-
-
 
 			imageTracker->activateDataSet(dataset);
 			criarBotao = false;
@@ -196,13 +193,13 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	for(int tIdx = 0; tIdx < state.getNumActiveTrackables(); tIdx++)
+	for(int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++)
 	{
+		const QCAR::TrackableResult* result = state.getTrackableResult(tIdx);
+		const QCAR::Trackable& trackable = result->getTrackable();
+		QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(result->getPose());
 
-		const QCAR::Trackable* trackable = state.getActiveTrackable(tIdx);
-		QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(trackable->getPose());
-
-		const QCAR::ImageTarget* target = static_cast<const QCAR::ImageTarget*>(trackable);
+		const QCAR::ImageTargetResult* target = static_cast<const QCAR::ImageTargetResult*>(result);
 
 		if (target->getNumVirtualButtons() == 0) {
 			criarBotao = true;
@@ -214,13 +211,15 @@ void renderizaFrame(JNIEnv* env, jobject obj) {
 
 			QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
 			QCAR::Tracker* tracker = trackerManager.initTracker(QCAR::Tracker::IMAGE_TRACKER);
-			const QCAR::VirtualButton* button = target->getVirtualButton(i);
 
-			if (button->isPressed())
+			const QCAR::VirtualButtonResult* buttonResult = target->getVirtualButtonResult(i);
+			const QCAR::VirtualButton& button = buttonResult->getVirtualButton();
+
+			if (buttonResult->isPressed())
 			{
 				jclass cls = env->GetObjectClass(obj);
 
-				jstring name = env->NewStringUTF(trackable->getName());
+				jstring name = env->NewStringUTF(trackable.getName());
 
 				jmethodID abrirVideoMethodID = env->GetMethodID(cls, "abrirVideo", "(Ljava/lang/String;)V");
 

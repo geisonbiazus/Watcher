@@ -1,0 +1,26 @@
+Para executar o projeto tenha instalado o android SDK 2.2
+E tenha também o AndroidNDK instalado e configurado.
+O processo de instalação pode ser encontrado nos seguinte endereço:
+
+http://developer.android.com/tools/sdk/ndk/index.html#Installing
+
+Após instalar o Android SDK e NDK, abra o arquivo jni/Android.mk e corrija o caminho na variável LOCAL_EXPORT_C_INCLUDES
+
+Em seguida digite no diretorio do projeto em um terminal o seguinte comando:
+
+$ ndk-build
+
+Este comando irá compilar as bibliotecas nativas do projeto.
+
+Habilite a Depuração USB no seu aparelho Android e conecte o mesmo ao computador usando um cabo USB.
+
+Execute o projeto a partir do eclipse.
+
+Com a aplicação sendo executada no aparelho, pressione a tecla menu e entre em configurações.
+Nesta tela configure o endereço do servidor WatcherMenager. Ex.: http://192.168.1.2:3000. E clique em gravar
+Em seguida pressione menu novamente e selecione a opção atualizar.
+
+Feito isso, os trackables do aplicativo estarão sincronizados com os trackables cadastrados no WatcherManager.
+
+
+

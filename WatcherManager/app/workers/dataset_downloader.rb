@@ -18,18 +18,20 @@ class DatasetDownloader
 
       d = Selenium::WebDriver.for :chrome, :profile => profile
 
-      d.get "https://ar.qualcomm.at/user?destination=sdk"
-      d.find_element(:id, "edit-name").send_keys $config["tms"]["usuario"]
-      d.find_element(:id, "edit-pass").send_keys $config["tms"]["senha"]
-      d.find_element(:id, "edit-submit-1").click
+      d.get "https://developer.vuforia.com/target-manager"
+      d.find_element(:id, "edit-popup-user-name-login").send_keys $config["tms"]["usuario"]
+      d.find_element(:id, "edit-popup-user-pass-login").send_keys $config["tms"]["senha"]
+      d.find_element(:id, "edit-submit").click
 
-      d.get "https://ar.qualcomm.at/project/#{$config["tms"]["projeto"]}"
+      d.find_element(:xpath, "//div[text()=\"#{$config["tms"]["database"]}\"]").click
 
-      d.find_element(:link, "All").click
+      sleep 2
 
-      d.find_element(:link, "download selected trackables").click
+      d.find_element(:link, 'Select All').click
 
-      d.find_element(:id, "edit-submit-1").click
+      d.find_element(:id, 'buttonsCreate').click
+
+      d.find_element(:id, 'createlDownloadDatabaseBtn').click
 
       while not File.exists?(FILE_URL)
         sleep 1

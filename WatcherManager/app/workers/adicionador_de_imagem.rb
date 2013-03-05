@@ -7,22 +7,21 @@ class AdicionadorDeImagem
 
     d = Selenium::WebDriver.for :chrome, :profile => profile
 
-    d.get "https://ar.qualcomm.at/user?destination=sdk"
-    d.find_element(:id, "edit-name").send_keys $config["tms"]["usuario"]
-    d.find_element(:id, "edit-pass").send_keys $config["tms"]["senha"]
-    d.find_element(:id, "edit-submit-1").click
+    d.get "https://developer.vuforia.com/target-manager"
+    d.find_element(:id, "edit-popup-user-name-login").send_keys $config["tms"]["usuario"]
+    d.find_element(:id, "edit-popup-user-pass-login").send_keys $config["tms"]["senha"]
+    d.find_element(:id, "edit-submit").click
 
-    d.get "https://ar.qualcomm.at/project/#{$config["tms"]["projeto"]}"
-    d.find_element(:link, "Create a trackable").click
+    d.find_element(:xpath, "//div[text()=\"#{$config["tms"]["database"]}\"]").click
 
-    d.find_element(:id, "edit-target-id").send_keys nome
-    d.find_element(:id, "edit-dimension-width").send_keys "100"
-    d.find_element(:id, "edit-target-submit").click
+    d.find_element(:id, 'addDeviceTargetUserView').click
 
-    d.find_element(:link, "Upload").click
+    d.find_element(:id, "targetName").send_keys nome
+    d.find_element(:id, "targetDimension").send_keys "100"
+    d.find_element(:id, "targetImgFile").send_keys "#{Rails.root}/public/system/imagens/#{imagem}"
 
-    d.find_element(:id, "edit-image").send_keys "#{Rails.root}/public/system/imagems/#{imagem}"
-    d.find_element(:id, "edit-submit-1").click
+    d.find_element(:id, "AddDeviceTargetBtn").click
+
     d.close
   end
 
